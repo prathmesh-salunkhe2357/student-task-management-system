@@ -9,12 +9,12 @@ app.secret_key = "task_secret"
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Prs@7581",  # CHANGE TO YOUR MYSQL PASSWORD
+    password="Prs@7581",  
     database="student_tasks"
 )
 cursor = db.cursor(dictionary=True)
 
-# ----------- ROUTES -----------
+
 
 @app.route('/')
 def home():
@@ -25,7 +25,7 @@ def home():
             return redirect('/student')
     return redirect('/login')
 
-# SIGNUP
+
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def signup():
             return redirect('/signup')
     return render_template('signup.html')
 
-# LOGIN
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     if request.method=='POST':
@@ -64,13 +64,13 @@ def login():
             flash("Email not registered!", "error")
     return render_template('login.html')
 
-# LOGOUT
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/login')
 
-# ADMIN DASHBOARD
+
 @app.route('/admin')
 def admin_dashboard():
     if 'role' in session and session['role']=='admin':
@@ -81,7 +81,7 @@ def admin_dashboard():
         return render_template('admin_dashboard.html', tasks=tasks, students=students)
     return redirect('/login')
 
-# ADD TASK
+
 @app.route('/add_task', methods=['GET','POST'])
 def add_task():
     if 'role' in session and session['role']=='admin':
@@ -98,7 +98,7 @@ def add_task():
         return render_template('add_task.html', students=students)
     return redirect('/login')
 
-# MARK TASK COMPLETED
+
 @app.route('/complete_task/<int:task_id>')
 def complete_task(task_id):
     cursor.execute("UPDATE tasks SET status='Completed' WHERE id=%s",(task_id,))
@@ -106,7 +106,7 @@ def complete_task(task_id):
     flash("Task marked as completed!", "success")
     return redirect('/admin')
 
-# STUDENT DASHBOARD
+
 @app.route('/student')
 def student_dashboard():
     if 'role' in session and session['role']=='student':
@@ -124,3 +124,4 @@ def student_dashboard():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
