@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<a href="/add_task">Add Task</a>
+<table>
+<tr>
+<th>Task</th><th>Student</th><th>Due Date</th><th>Status</th><th>Action</th>
+</tr>
+{% for task in tasks %}
+<tr>
+<td>{{ task.title }}</td>
+<td>{{ task.name }}</td>
+<td>{{ task.due_date }}</td>
+<td class="{{ task.status|lower|replace(' ','-') }}">{{ task.status }}</td>
+<td>
+{% if task.status != 'Completed' %}
+<a href="/complete_task/{{ task.id }}">Mark Completed</a>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
